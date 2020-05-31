@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    </head>
+
+    <body>
+        <form method='post'>
+            <label for="exampleEmailInput">Your email</label>
+            <input class="u-full-width" type="email" placeholder="test@mailbox.com" id="exampleEmailInput" name="email">
+            <label for="exampleMessage">Message</label>
+            <textarea class="u-full-width" placeholder="Hi Jim …" id="exampleMessage" name="note"></textarea>
+            <div class="g-recaptcha" data-sitekey="6LfhSv4UAAAAAHriTgLgAk-xYwpZw724XtMFJEqR"></div>
+            <input class="button-primary" type="submit" value="Submit">
+          </form>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+
+            $(document).ready(function() {
+
+                $('form').submit(function(e) {
+                    e.preventDefault()
+
+                    var formData = new FormData(e.currentTarget)
+
+                    $.ajax({
+                        url: 'http://localhost:3000/api/submit',
+                        contentType: 'application/json',
+                        type: 'POST',
+                        data: JSON.stringify({
+                            email: formData.get('email'),
+                            note: formData.get('note'),
+                            recaptcha: formData.get('g-recaptcha-response')
+                        })
+                    })
+                })
+
+            })
+            
+    </script>
+</html>
